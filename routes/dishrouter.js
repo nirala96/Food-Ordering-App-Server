@@ -22,20 +22,6 @@ dishRouter.route('/')
 })
 .delete((req, res, next) => {
     res.end('Deleting all dishes');
-})
-
-async function main(){
-    db = await mysql.createConnection({
-      host:"localhost",
-      user: "root",
-      password: "PASS1234",
-      database: "fdms",
-      timezone: "+00:00",
-      charset: "utf8mb4_general_ci",
-    });
-  
-}
-
-main();
+});
 
 module.exports = dishRouter;
