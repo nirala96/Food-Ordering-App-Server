@@ -17,6 +17,9 @@ app.use(express.json());
 const loginRouter = require('./routes/loginrouter');
 app.use('/login', loginRouter);
 
+const userdetailsRouter = require('./routes/userdetailsrouter');
+app.use('/userdetails', userdetailsRouter);
+
 const dishRouter = require('./routes/dishrouter');
 app.use('/dishes', dishRouter);
 
@@ -25,9 +28,6 @@ app.use('/orderhstry', orderhstryRouter);
 
 const restaurantRouter = require('./routes/restaurantrouter');
 app.use('/restaurant', restaurantRouter);
-
-const userdetailsRouter = require('./routes/userdetailsrouter');
-app.use('/userdetails', userdetailsRouter);
 
 
 /////////////////////////
