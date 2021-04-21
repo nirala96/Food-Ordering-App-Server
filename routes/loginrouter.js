@@ -22,16 +22,16 @@ loginRouter.route('/')
     if(uname.length == 0){
         res.statusCode = 403;
         res.setHeader('Content-Type', 'text/json');
-        res.json({status:false});
+        res.json({"status":"false"});
     }
     else if (uname[0].user_pass == user_pass ){
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/json');
-        res.json({status:true,user:uname[0]});
+        res.json(uname[0]);
     }else{
         res.statusCode = 403;
         res.setHeader('Content-Type', 'text/json');
-        res.json({status:false});
+        res.json({"status":"false"});
     }
 });
 
@@ -49,13 +49,13 @@ loginRouter.route('/newuser')
     if(uid.length != 0){
         res.statusCode = 409;
         res.setHeader('Content-Type', 'text/json');
-        res.json({status:false});
+        res.json({"status":"false"});
     }
     else {
         db.query(`INSERT INTO users (user_id, user_name, user_pass, isAdmin) VALUES ("${user.user_id}", "${user.user_name}", "${user.user_pass}", 0);`);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/json');
-        res.json({status:true,user:user});
+        res.json(user);
     }
 })
 .delete((req, res, next) => {
