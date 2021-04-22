@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require("mysql2/promise");
+const config = require('config');
 
 const loginRouter = express.Router();
 
@@ -38,11 +39,11 @@ loginRouter.route('/')
 /////////////////////////////////////////////////////////////////////////////////
 loginRouter.route('/newuser')
 .post(async (req, res, next) => {
-    const user = {user_name: req.body.user_name,
+    const user = {  user_name: req.body.user_name,
                     user_pass: req.body.user_pass,
                     user_id: req.body.user_id,
                     isAdmin: 0 
-                    }
+                }
         
     const [uid] = await db.query(`SELECT * FROM users where user_id = "${user.user_id}";`);
 
@@ -63,15 +64,14 @@ loginRouter.route('/newuser')
 });
 
 async function main(){
-  db = await mysql.createConnection({
-    host:"localhost",
-    user: "root",
-    password: "PASS1234",
-    database: "fdms",
-    timezone: "+00:00",
-    charset: "utf8mb4_general_ci",
-  });
-
+    db = await mysql.createConnection({
+      host: config.get('db.host'),
+      user: config.get('db.user'),
+      password: config.get('db.password'),
+      database: config.get('db.database'),
+      timezone: config.get('db.timezone'),
+      charset: config.get('db.charset')
+    });  
 }
 main();
 

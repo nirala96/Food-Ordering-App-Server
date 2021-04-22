@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require("mysql2/promise");
+const config = require('config');
 
 const restaurantRouter = express.Router();
 
@@ -26,13 +27,13 @@ restaurantRouter.route('/')
 
 async function main(){
     db = await mysql.createConnection({
-      host:"localhost",
-      user: "root",
-      password: "PASS1234",
-      database: "fdms",
-      timezone: "+00:00",
-      charset: "utf8mb4_general_ci",
-    });
+      host: config.get('db.host'),
+      user: config.get('db.user'),
+      password: config.get('db.password'),
+      database: config.get('db.database'),
+      timezone: config.get('db.timezone'),
+      charset: config.get('db.charset')
+    });  
 }
 main();
 
