@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require("mysql2/promise");
+const config = require('config');
 
 const dishRouter = express.Router();
 
@@ -27,7 +28,9 @@ dishRouter.route('/')
                     dish_rest_id: req.body.dish_rest_id
                 }
 
-    if(dish.dish_type == "starter" || dish.dish_type == "main course" || dish.dish_type == "dessert" ){
+    var currDishType = dish.dish_type;
+    var types = ['starter','main course','dessert', 'snack', 'beverage'];
+    if (types.indexOf(currDishType) >= 0) {
         db.query(`INSERT INTO dishes (dish_name, dish_price, isavailable, dish_type, dish_rest_id) VALUES ("${dish.dish_name}", ${dish.dish_price}, ${dish.isavailable}, "${dish.dish_type}", "${dish.dish_rest_id}");`);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/json');
@@ -72,13 +75,13 @@ dishRouter.route('/:dishID')
 
 async function main(){
     db = await mysql.createConnection({
-      host:"localhost",
-      user: "root",
-      password: "PASS1234",
-      database: "fdms",
-      timezone: "+00:00",
-      charset: "utf8mb4_general_ci",
-    });
+      host: config.get('db.host'),
+      user: config.get('db.user'),
+      password: config.get('db.password'),
+      database: config.get('db.database'),
+      timezone: config.get('db.timezone'),
+      charset: config.get('db.charset')
+    });  
 }
 main();
 

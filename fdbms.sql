@@ -38,7 +38,7 @@ CREATE TABLE users (
  dish_price INT NOT NULL,
  isAvailable BOOL NOT NULL,
  dish_type VARCHAR(255),
- CONSTRAINT chk_dish_type CHECK (dish_type IN ('starter','main course','dessert')),
+ CONSTRAINT chk_dish_type CHECK (dish_type IN ('starter','main course','dessert', 'snack', "beverage")),
  dish_rest_id VARCHAR(255) NOT NULL,
  foreign key (dish_rest_id) references restaurant(rest_id),
  primary key (dish_id)
