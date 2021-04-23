@@ -16,7 +16,7 @@ orderhstryRouter.route('/')
 .get( async (req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    const [rows] = await db.query("SELECT * FROM orders_history;");
+    const [rows] = await db.query(`SELECT * FROM orders_history WHERE order_user_id = "${req.body.user_id}";`);
     res.json(rows);
     next();
 })
