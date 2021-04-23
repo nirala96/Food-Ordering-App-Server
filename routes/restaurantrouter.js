@@ -8,22 +8,53 @@ const restaurantRouter = express.Router();
 restaurantRouter.use(bodyParser.json());
 
 restaurantRouter.route('/')
-.all((req, res, next) => {
+.get( async (req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    next();     //continue to look for additional specification that will match /dishes
-})
-.get( async (req,res,next) => {
     const [rows] = await db.query("SELECT * FROM restaurant;");
     res.json(rows);
     next();
 })
 .post((req, res, next) => {
-    res.end('Will add the dish: ' + req.body.name + ' with details: ' + req.body.description);
-})
-.delete((req, res, next) => {
-    res.end('Deleting all dishes');
+    const rest = {  rest_id: req.body.rest_id,
+                    rest_email: req.body.rest_email,
+                    rest_phno: req.body.rest_phno,
+                    rest_addline: req.body.rest_addline,  
+                    rest_pincode: req.body.rest_pincode,
+                    rest_joindt: req.body.rest_joindt,
+                    rest_owner: req.body.rest_owner,
+                }
+
+    const [rname] = await db.query(`SELECT * FROM restaurant WHERE rest_id = "${rest.rest_id}";`);
+
+    if(rname.length == 0){
+        const [oname] = await db.query(`SELECT * FROM users WHERE user_id = "${rest.rest_owner}";`);
+        
+        if(oname.length != 0){
+            db.query(`INSERT INTO restaurant VALUES ("${rest.rest_id}", "${rest.rest_email}", "${rest.rest_phno}", "${rest.rest_addline}", "${rest.rest_pincode}", "${rest.rest_joindt}", "${rest.rest_owner}");`);
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/json');
+            res.json(dish);
+        }else{
+            res.statusCode = 403;
+            res.setHeader('Content-Type', 'text/json');
+            res.json({"status":"false"});
+        }
+    }else{
+        res.statusCode = 403;
+        res.setHeader('Content-Type', 'text/json');
+        res.json({"status":"false"});
+    }
 });
+
+restaurantRouter.route('/:restID')
+.get( async (req,res,next) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    const [rows] = await db.query(`SELECT * FROM restaurant WHERE rest_id = "${req.params.restID}";`);
+    res.json(rows);
+    next();
+})
 
 async function main(){
     db = await mysql.createConnection({
