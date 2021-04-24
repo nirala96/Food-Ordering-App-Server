@@ -15,7 +15,7 @@ restaurantRouter.route('/')
     res.json(rows);
     next();
 })
-.post((req, res, next) => {
+.post( async (req, res, next) => {
     const rest = {  rest_id: req.body.rest_id,
                     rest_email: req.body.rest_email,
                     rest_phno: req.body.rest_phno,
