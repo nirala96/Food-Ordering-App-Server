@@ -1,7 +1,8 @@
-const express = require("express");
 const http = require('http');
 const morgan = require('morgan');
 const mysql = require("mysql2/promise");
+const cors = require("cors");
+const express = require("express");
 
 const config = require('config');
 
@@ -13,6 +14,7 @@ let db = null;
 const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors());
 
 //////////////////////////////////
 

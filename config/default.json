@@ -1,13 +1,13 @@
 {
     "app": {
-        "port": 3000,
-        "hostname":"localhost"
+        "port": 8800,
+        "hostname":"192.168.43.27"
     },
     "db": {
         "host": "localhost",
-        "user": "root",
-        "password": "PASS1234",
-        "database":"fdms",
+        "user": "admin",
+        "password": "password",
+        "database":"FDMS",
         "timezone":"+00:00",
         "charset": "utf8mb4_general_ci"
     }
