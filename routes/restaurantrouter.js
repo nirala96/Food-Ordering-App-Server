@@ -22,16 +22,16 @@ restaurantRouter.route('/')
                     rest_addline: req.body.rest_addline,  
                     rest_pincode: req.body.rest_pincode,
                     rest_joindt: req.body.rest_joindt,
-                    rest_owner: req.body.rest_owner,
+                    rest_owner_id: req.body.rest_owner_id,
                 }
 
     const [rname] = await db.query(`SELECT * FROM restaurant WHERE rest_id = "${rest.rest_id}";`);
 
     if(rname.length == 0){
-        const [oname] = await db.query(`SELECT * FROM users WHERE user_id = "${rest.rest_owner}";`);
+        const [oname] = await db.query(`SELECT * FROM users WHERE user_id = "${rest.rest_owner_id}";`);
         
         if(oname.length != 0){
-            db.query(`INSERT INTO restaurant VALUES ("${rest.rest_id}", "${rest.rest_email}", "${rest.rest_phno}", "${rest.rest_addline}", "${rest.rest_pincode}", "${rest.rest_joindt}", "${rest.rest_owner}");`);
+            db.query(`INSERT INTO restaurant VALUES ("${rest.rest_id}", "${rest.rest_email}", "${rest.rest_phno}", "${rest.rest_addline}", "${rest.rest_pincode}", "${rest.rest_joindt}", "${rest.rest_owner_id}");`);
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/json');
             res.json(dish);
